@@ -2,7 +2,7 @@
 CXX=g++
 
 # These are the flags.
-CFLAGS=-c -std=c++1z -Wall -Wextra
+CFLAGS=-c -std=c++17 -Wall -Wextra
 LDFLAGS=
 
 # These are the source files.
@@ -10,7 +10,7 @@ SOURCES=src/main.cpp src/parsers/gnrmc.cpp src/utils.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 
 # Executable.
-EXECUTABLE=output/nmea-parser
+EXECUTABLE=output/nmea_parser
 
 all: $(SOURCES) $(EXECUTABLE)
 
@@ -23,4 +23,4 @@ $(EXECUTABLE): $(OBJECTS)
 .PHONY: clean
 
 clean:
-	rm output/nmea-parser $(OBJECTS)
+	rm output/nmea_parser $(OBJECTS)
