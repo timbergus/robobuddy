@@ -3,7 +3,7 @@
 #include <thread>
 // #include <robotcontrol.h>
 
-#include "utils.h"
+#include "gnrmc.h"
 
 #define BUS 2
 #define BUS_SIZE 128
@@ -29,8 +29,8 @@ void blink(int times, int duration)
 void readSampleFile(std::string path)
 {
     std::string line;
-    std::vector<std::string> parts;
     std::ifstream file(path);
+    GNRMC coords;
 
     if (!file)
     {
@@ -39,11 +39,9 @@ void readSampleFile(std::string path)
 
     while (std::getline(file, line))
     {
-        parts.clear();
+        coords.parser(line);
 
-        split_string(line, parts);
-
-        show_results(parts, "$GNRMC");
+        coords.render();
 
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
@@ -54,6 +52,7 @@ void readSampleFile(std::string path)
 /* void readGPS()
 {
     int ret;
+    GNRMC coords;
 
     uint8_t buf[BUS_SIZE];
 
@@ -80,12 +79,9 @@ void readSampleFile(std::string path)
         {
             std::cout << buf << std::endl;
 
-            std::string line = (char *)buf;
-            std::vector<std::string> parts;
+            coords.parser((char *)buf);
 
-            split_string(line, parts);
-
-            show_results(parts, "$GNRMC");
+            coords.render();
         }
 
         memset(buf, 0, sizeof(buf));

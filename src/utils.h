@@ -14,11 +14,9 @@ void split_string(std::string &, std::vector<std::string> &);
 std::string format_time(std::string);
 std::string format_date(std::string);
 
-double format_latitude(std::string);
-double format_longitude(std::string, std::string);
+double format_latitude(double);
+double format_longitude(double, std::string);
 
-double format_speed(std::string, std::string);
-
-void show_results(std::vector<std::string> &, std::string);
+double format_speed(double, std::string);
 
 #endif // _UTILS_H_

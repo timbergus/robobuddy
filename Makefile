@@ -9,7 +9,7 @@ CFLAGS = -std=c++17 -Wall -Wextra
 LDFLAGS = librobotcontrol.so.1
 
 # Source files.
-SOURCES = src/main.cpp src/utils.cpp
+SOURCES = src/main.cpp src/utils.cpp src/gnrmc.cpp
 
 all:
 	# $(CXX) $(CFLAGS) -l:$(LDFLAGS) $(SOURCES) -o $(EXECUTABLE) -I./src
