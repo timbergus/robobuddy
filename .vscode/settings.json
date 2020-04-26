@@ -5,8 +5,11 @@
         "GNGSA",
         "GNRMC",
         "GPGSV",
+        "KNTOKMH",
         "NMEA",
         "Robo",
+        "stod",
+        "stoi",
         "waypoints"
     ],
     "editor.fontFamily": "Fira Code",

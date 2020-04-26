@@ -1,12 +1,16 @@
-#include <iostream>
-#include <robotcontrol.h>
+#include <fstream>
+#include <chrono>
+#include <thread>
+// #include <robotcontrol.h>
+
+#include "utils.h"
 
 #define BUS 2
 #define BUS_SIZE 128
 #define TIMEOUT_S 0.5
 #define BAUDRATE 9600
 
-void blink_led(rc_led_t LED, int duration)
+/* void blink_led(rc_led_t LED, int duration)
 {
     rc_led_set(LED, 1);
     rc_usleep(duration * 100000);
@@ -20,12 +24,35 @@ void blink(int times, int duration)
         blink_led(RC_LED_GREEN, duration);
         blink_led(RC_LED_RED, duration);
     }
+} */
+
+void readSampleFile(std::string path)
+{
+    std::string line;
+    std::vector<std::string> parts;
+    std::ifstream file(path);
+
+    if (!file)
+    {
+        std::cout << "File not found." << std::endl;
+    }
+
+    while (std::getline(file, line))
+    {
+        parts.clear();
+
+        split_string(line, parts);
+
+        show_results(parts, "$GNRMC");
+
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
+
+    file.close();
 }
 
-int main()
+/* void readGPS()
 {
-    // blink(20, 1);
-
     int ret;
 
     uint8_t buf[BUS_SIZE];
@@ -33,12 +60,11 @@ int main()
     if (rc_uart_init(BUS, BAUDRATE, TIMEOUT_S, 0, 1, 0))
     {
         std::cout << "Failed to init UART" << BUS << std::endl;
-        return -1;
     }
 
     rc_uart_flush(BUS);
 
-    for (int i = 0; i < 100; i++)
+    for (int i = 0; i < 10000; i++)
     {
         ret = rc_uart_read_line(BUS, buf, sizeof(buf));
 
@@ -53,12 +79,28 @@ int main()
         else
         {
             std::cout << buf << std::endl;
+
+            std::string line = (char *)buf;
+            std::vector<std::string> parts;
+
+            split_string(line, parts);
+
+            show_results(parts, "$GNRMC");
         }
 
         memset(buf, 0, sizeof(buf));
     }
 
     rc_uart_close(BUS);
+} */
+
+int main()
+{
+    // blink(20, 1);
+
+    readSampleFile("./src/samples.txt");
+
+    // readGPS();
 
     return 0;
 }
