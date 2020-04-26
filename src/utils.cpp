@@ -25,7 +25,7 @@ std::string format_date(std::string date)
 {
     std::string day = date.substr(0, 2);
     std::string month = date.substr(2, 2);
-    std::string year = std::to_string(2000 + std::stoi(date.substr(4, 2)));
+    std::string year = date.substr(4, 2);
 
     return day + "/" + month + "/" + year;
 }

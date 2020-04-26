@@ -1,7 +1,7 @@
 #include <fstream>
 #include <chrono>
 #include <thread>
-// #include <robotcontrol.h>
+#include <robotcontrol.h>
 
 #include "gnrmc.h"
 
@@ -26,7 +26,7 @@ void blink(int times, int duration)
     }
 } */
 
-void readSampleFile(std::string path)
+/* void readSampleFile(std::string path)
 {
     std::string line;
     std::ifstream file(path);
@@ -47,9 +47,9 @@ void readSampleFile(std::string path)
     }
 
     file.close();
-}
+} */
 
-/* void readGPS()
+void readGPS()
 {
     int ret;
     GNRMC coords;
@@ -61,42 +61,32 @@ void readSampleFile(std::string path)
         std::cout << "Failed to init UART" << BUS << std::endl;
     }
 
-    rc_uart_flush(BUS);
-
-    for (int i = 0; i < 10000; i++)
+    while (true)
     {
         ret = rc_uart_read_line(BUS, buf, sizeof(buf));
 
-        if (ret < 0)
+        if (ret >= 0)
         {
-            std::cout << "Error reading bus." << std::endl;
-        }
-        else if (ret == 0)
-        {
-            std::cout << "Timeout reached, " << ret << " bytes readed." << std::endl;
-        }
-        else
-        {
-            std::cout << buf << std::endl;
+            std::string line = (char *)buf;
 
-            coords.parser((char *)buf);
-
-            coords.render();
+            if (line.substr(0, 6) == coords.id)
+            {
+                coords.parser(line);
+                coords.render();
+            }
         }
-
-        memset(buf, 0, sizeof(buf));
     }
 
     rc_uart_close(BUS);
-} */
+}
 
 int main()
 {
     // blink(20, 1);
 
-    readSampleFile("./src/samples.txt");
+    // readSampleFile("./src/samples.txt");
 
-    // readGPS();
+    readGPS();
 
     return 0;
 }

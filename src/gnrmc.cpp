@@ -22,19 +22,62 @@ void GNRMC::parser(std::string &sample)
 
     split_string(sample, parts);
 
-    time = parts.at(1);
-    date = parts.at(9);
-    latitude = std::stod(parts.at(3));
-    longitude = std::stod(parts.at(5));
+    if (parts.at(1).size() >= 6)
+    {
+        time = parts.at(1);
+    }
+    else
+    {
+        time = "000000";
+    }
+
+    if (parts.at(9).size() >= 6)
+    {
+        date = parts.at(9);
+    }
+    else
+    {
+        date = "000000";
+    }
+
+    if (!parts.at(3).empty())
+    {
+        latitude = std::stod(parts.at(3));
+    }
+    else
+    {
+        latitude = 0.0;
+    }
+
+    if (!parts.at(5).empty())
+    {
+        longitude = std::stod(parts.at(5));
+    }
+    else
+    {
+        longitude = 0.0;
+    }
+    
     orientation = parts.at(6);
-    speed = std::stod(parts.at(7));
+
+    if (!parts.at(7).empty())
+    {
+        speed = std::stod(parts.at(7));
+    }
+    else
+    {
+        speed = 0.0;
+    }
 }
 
 void GNRMC::render()
 {
-    std::cout << format_time(time) << "\t";
-    std::cout << format_date(date) << "\t";
-    std::cout << format_latitude(latitude) << "\t\t";
-    std::cout << format_longitude(longitude, orientation) << "\t";
-    std::cout << format_speed(speed, "MS") << std::endl;
+    std::cout << std::setw(10);
+    std::string units = "MS";
+    std::string label = units == "MS" ? "m/s" : "km/h";
+
+    std::cout << format_date(date) << "(" << format_time(time) << ")";
+    std::cout << "Lat: " << format_latitude(latitude);
+    std::cout << "Lng: " << format_longitude(longitude, orientation);
+    std::cout << "Speed: " << format_speed(speed, units) << label << std::endl;
 }
