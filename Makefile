@@ -4,7 +4,7 @@ EXECUTABLE = output/robobuddy
 # This is the compiler.
 CXX = g++
 
-# These are the flags.
+# These are the flags (we are using the latest c++ version).
 CFLAGS = -std=c++17 -Wall -Wextra
 LDFLAGS = librobotcontrol.so.1
 
