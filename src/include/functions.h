@@ -1,7 +1,14 @@
+// functions.h
+
+#ifndef FUNCTIONS_H
+#define FUNCTIONS_H
+
 #include <fstream>
 #include <chrono>
 #include <thread>
 #include <robotcontrol.h>
+#include <string>
+#include <fstream>
 
 #include "gnrmc.h"
 
@@ -10,7 +17,12 @@
 #define TIMEOUT_S 0.5
 #define BAUDRATE 9600
 
-/* void blink_led(rc_led_t LED, int duration)
+void blink_led(rc_led_t, int);
+void blink(int, int);
+void read_sample_file(std::string);
+void read_gps();
+
+void blink_led(rc_led_t LED, int duration)
 {
     rc_led_set(LED, 1);
     rc_usleep(duration * 100000);
@@ -24,9 +36,9 @@ void blink(int times, int duration)
         blink_led(RC_LED_GREEN, duration);
         blink_led(RC_LED_RED, duration);
     }
-} */
+}
 
-/* void readSampleFile(std::string path)
+void read_sample_file(std::string path)
 {
     std::string line;
     std::ifstream file(path);
@@ -40,16 +52,14 @@ void blink(int times, int duration)
     while (std::getline(file, line))
     {
         coords.parser(line);
-
         coords.render();
-
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 
     file.close();
-} */
+}
 
-void readGPS()
+void read_gps()
 {
     int ret;
     GNRMC coords;
@@ -80,13 +90,4 @@ void readGPS()
     rc_uart_close(BUS);
 }
 
-int main()
-{
-    // blink(20, 1);
-
-    // readSampleFile("./src/samples.txt");
-
-    readGPS();
-
-    return 0;
-}
+#endif // FUNCTIONS_H

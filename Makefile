@@ -1,17 +1,34 @@
-# Executable.
-EXECUTABLE = output/robobuddy
+CC=clang++-7
+CFLAGS=-std=c++17 -Werror -Wall -Wextra
+IFLAGS=-I $(INCLUDE) -I /usr/local/include
+LFLAGS=-L /usr/local/lib -l:librobotcontrol.so.1
 
-# This is the compiler.
-CXX = g++
+TARGET=robobuddy
+ROOT=src/app
+INCLUDE=src/include
+BIN=src/bin
 
-# These are the flags (we are using the latest c++ version).
-CFLAGS = -std=c++17 -Wall -Wextra
-LDFLAGS = librobotcontrol.so.1
+OBJS=	$(BIN)/main.o	\
+		$(BIN)/gnrmc.o	\
+		$(BIN)/utils.o
 
-# Source files.
-SOURCES = src/main.cpp src/utils.cpp src/gnrmc.cpp
+$(BIN)/%.o: $(INCLUDE)/%.cpp
+	@mkdir -p $(BIN)
+	$(CC) $(CFLAGS) $(IFLAGS) -c -MD $< -o $@
 
-all:
-	$(CXX) $(CFLAGS) -l:$(LDFLAGS) $(SOURCES) -o $(EXECUTABLE) -I./src
-	# $(CXX) $(CFLAGS) $(SOURCES) -o $(EXECUTABLE) -I./src
-	./$(EXECUTABLE)
+$(BIN)/%.o: $(ROOT)/%.cpp
+	@mkdir -p $(BIN)
+	$(CC) $(CFLAGS) $(IFLAGS) -c -MD $< -o $@
+
+$(TARGET): $(OBJS)
+	@$(CC) $(CFLAGS) $(IFLAGS) $(LFLAGS) $(OBJS) -o $(BIN)/$(TARGET)
+
+-include $(BIN)/*.d
+
+start:
+	@$(BIN)/$(TARGET)
+
+.PHONY: clean
+
+clean:
+	rm -r $(BIN)
