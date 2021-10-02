@@ -8,9 +8,11 @@ int main()
 
     // read_sample_file("./src/data/samples.txt");
     
-    std::cout << "Reading GPS." << std::endl;
+    int samples = 20000;
+    
+    std::cout << "Reading " <<  samples << " GPS samples." << std::endl;
 
-    read_gps();
+    read_gps(samples);
 
     return EXIT_SUCCESS;
 }

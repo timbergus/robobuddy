@@ -380,4 +380,14 @@ src/bin/main.o: src/app/main.cpp \
   /usr/bin/../lib/gcc/arm-linux-gnueabihf/6.3.0/../../../../include/c++/6.3.0/bits/locale_conv.h \
   /usr/bin/../lib/gcc/arm-linux-gnueabihf/6.3.0/../../../../include/c++/6.3.0/bits/quoted_string.h \
   /usr/bin/../lib/gcc/arm-linux-gnueabihf/6.3.0/../../../../include/c++/6.3.0/sstream \
-  /usr/bin/../lib/gcc/arm-linux-gnueabihf/6.3.0/../../../../include/c++/6.3.0/bits/sstream.tcc
+  /usr/bin/../lib/gcc/arm-linux-gnueabihf/6.3.0/../../../../include/c++/6.3.0/bits/sstream.tcc \
+  /usr/include/fcntl.h /usr/include/arm-linux-gnueabihf/bits/fcntl.h \
+  /usr/include/arm-linux-gnueabihf/bits/fcntl-linux.h \
+  /usr/include/arm-linux-gnueabihf/bits/uio.h \
+  /usr/include/arm-linux-gnueabihf/bits/stat.h /usr/include/termios.h \
+  /usr/include/arm-linux-gnueabihf/bits/termios.h \
+  /usr/include/arm-linux-gnueabihf/sys/ttydefaults.h \
+  /usr/include/unistd.h \
+  /usr/include/arm-linux-gnueabihf/bits/posix_opt.h \
+  /usr/include/arm-linux-gnueabihf/bits/environments.h \
+  /usr/include/arm-linux-gnueabihf/bits/confname.h /usr/include/getopt.h
