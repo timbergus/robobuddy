@@ -4,3 +4,5 @@
 
 robobuddy
 nmea_parser
+
+.vscode/*.log

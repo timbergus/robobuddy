@@ -72,15 +72,15 @@ void read_sample_file(std::string path)
 /* void read_gps()
 {
     GNRMC coords;
-    
+
     uint8_t buf[BUS_SIZE];
-    
+
     time_t now = time(0);
-    
+
     std::string file_name("./src/data/" + std::to_string(now) + ".txt");
-    
+
     std::ofstream file(file_name);
-    
+
     int samples{50};
 
     if (rc_uart_init(BUS, BAUDRATE, TIMEOUT_S, 0, 1, 0) < 0)
@@ -91,14 +91,14 @@ void read_sample_file(std::string path)
     while (samples > 0)
     {
         rc_uart_flush(BUS);
-        
+
         if (rc_uart_read_line(BUS, buf, sizeof buf) > -1)
         {
             std::string line = (char *)buf;
-            
+
             // std::cout << line << std::endl;
             // std::cout << "---------------------------------------" << std::endl;
-            
+
             // std::cout << line.find("$") << "|" << line.find("*") << std::endl;
 
             if (line.find("$") == 0 && line.find("\n") > 0)
@@ -110,7 +110,7 @@ void read_sample_file(std::string path)
             }
         }
     }
-    
+
     file.close();
 
     rc_uart_close(BUS);
@@ -125,39 +125,41 @@ void read_sample_file(std::string path)
 int gps_init(const char *port_name)
 {
     int port = open(port_name, O_RDWR);
-    
+
     struct termios tty;
-    
-    if(tcgetattr(port, &tty) != 0) {
+
+    if (tcgetattr(port, &tty) != 0)
+    {
         printf("Error %i from tcgetattr: %s\n", errno, strerror(errno));
     }
-    
+
     cfsetispeed(&tty, B9600);
     cfsetospeed(&tty, B9600);
-    
-    if (tcsetattr(port, TCSANOW, &tty) != 0) {
+
+    if (tcsetattr(port, TCSANOW, &tty) != 0)
+    {
         printf("Error %i from tcsetattr: %s\n", errno, strerror(errno));
     }
-    
+
     return port;
 }
 
 std::string gps_read(int port)
 {
     std::string message;
-    
+
     char c = '\0';
-    
+
     read(port, &c, 1);
-    
+
     message += c;
-    
+
     while (c != '\n')
     {
-        read(port, &c, 1);  
+        read(port, &c, 1);
         message += c;
     }
-    
+
     return message;
 }
 
@@ -171,27 +173,27 @@ void gps_close(int port)
 void read_gps(int samples)
 {
     auto start = std::chrono::high_resolution_clock::now();
-    
+
     time_t now = time(0);
-    
+
     std::string file_name("./src/data/" + std::to_string(now) + ".txt");
-    
+
     std::ofstream file(file_name);
-    
+
     int serial_port = gps_init("/dev/ttyO2");
-    
+
     for (int i = 0; i < samples; i++)
     {
-      file << gps_read(serial_port);
+        file << gps_read(serial_port);
     }
-    
+
     gps_close(serial_port);
     file.close();
-    
+
     auto finish = std::chrono::high_resolution_clock::now();
-    
+
     std::chrono::duration<double> elapsed = finish - start;
-    
+
     std::cout << "Elapsed time: " << elapsed.count() << " s\n";
 }
 
