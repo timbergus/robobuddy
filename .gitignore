@@ -1,6 +1,6 @@
 # Ignore bin folder.
 
-/src/bin
+bin
 
 # Log files.
 
