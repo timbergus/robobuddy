@@ -1,6 +1,6 @@
 CC=clang++-7
-CFLAGS=-std=c++17 -Werror -Wall -Wextra
-IFLAGS=-I $(INCLUDE) -I /usr/local/include
+CFLAGS=-std=c++2a -Werror -Wall -Wextra
+IFLAGS=-I $(INCLUDE) -I /var/lib/cloud9/gustavo/gps-playground/src/include -I /usr/local/include
 LFLAGS=-L /usr/local/lib -l:librobotcontrol.so.1
 
 TARGET=robobuddy
@@ -8,9 +8,7 @@ ROOT=src/app
 INCLUDE=src/include
 BIN=src/bin
 
-OBJS=	$(BIN)/main.o	\
-		$(BIN)/gnrmc.o	\
-		$(BIN)/utils.o
+OBJS=$(BIN)/main.o
 
 $(BIN)/%.o: $(INCLUDE)/%.cpp
 	@mkdir -p $(BIN)

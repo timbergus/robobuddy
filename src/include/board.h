@@ -6,16 +6,27 @@
 #include <fcntl.h>
 #include <termios.h>
 #include <unistd.h>
+#include <map>
 
 #include <robotcontrol.h>
 
 // https://blog.mbedded.ninja/programming/operating-systems/linux/linux-serial-ports-using-c-cpp
+
+namespace brd
+{
+  struct board_options
+  {
+    int gps_port;
+    int gps_baudrate;
+  };
+}
 
 class Board
 {
 private:
   int port;
   struct termios tty;
+  brd::board_options options;
   std::map<int, speed_t> baudrates = {
       {9600, B9600},
       {19200, B19200},
@@ -25,25 +36,20 @@ private:
   };
 
 public:
-  static struct options_t
-  {
-    int gps_port;
-    int gps_baudrate;
-  };
-
-  Board(options_t);
+  Board(brd::board_options);
   ~Board();
 
   void gps_init();
   std::string gps_read();
-  void gps_close()
+  void gps_close();
 };
 
-Board::Board(options_t options)
+Board::Board(brd::board_options options)
 {
-  char *port_name;
+  this->options = options;
+  char port_name[50];
   sprintf(port_name, "/dev/ttyO%d", options.gps_port);
-  port = open(options.gps_port, O_RDWR);
+  port = open(port_name, O_RDWR);
 }
 
 Board::~Board()

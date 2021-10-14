@@ -12,23 +12,7 @@
 
 #include <robotcontrol.h>
 
-#include "gnrmc.h"
 #include "board.h"
-
-#define BUS 2
-#define BUS_SIZE 1024
-#define TIMEOUT_S 0.5
-#define BAUDRATE 9600
-
-void blink_led(rc_led_t, int);
-void blink(int, int);
-void read_sample_file(std::string);
-// void read_gps();
-void read_gps_message(int port);
-
-// GPS Functions
-
-void read_gps(int);
 
 void blink_led(rc_led_t LED, int duration)
 {
@@ -46,7 +30,7 @@ void blink(int times, int duration)
   }
 }
 
-void read_sample_file(std::string path)
+/* void read_sample_file(std::string path)
 {
   std::string line;
   std::ifstream file(path);
@@ -65,17 +49,16 @@ void read_sample_file(std::string path)
   }
 
   file.close();
-}
-
-// https://www.pluralsight.com/blog/software-development/how-to-measure-execution-time-intervals-in-c--
+} */
 
 void read_gps(int samples)
 {
+  // https://www.pluralsight.com/blog/software-development/how-to-measure-execution-time-intervals-in-c--
   auto start = std::chrono::high_resolution_clock::now();
 
   time_t now = time(0);
 
-  Board::options_t options;
+  brd::board_options options;
 
   options.gps_port = 2;
   options.gps_baudrate = 9600;
